@@ -18,7 +18,7 @@ use anyhow::Context;
 use mopro_ffi::app_config::android::AndroidBindingsParams;
 use mopro_ffi::app_config::constants::Mode;
 use mopro_ffi::app_config::project_name_from_toml;
-use mopro_ffi::app_config::react_native::android_abi_for_triple;
+use mopro_ffi::app_config::react_native::{android_abi_for_triple, remove_unrequested_wasm_stubs};
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
@@ -96,6 +96,8 @@ pub fn build(
             bindgen_lib.display()
         );
     }
+
+    remove_unrequested_wasm_stubs(bindings_dir)?;
     Ok(())
 }
 
